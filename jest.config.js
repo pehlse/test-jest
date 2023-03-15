@@ -1,4 +1,5 @@
 module.exports = {
+    globalSetup: '<rootDir>/globalSetups.js',
     testMatch: ['**/(*.)unit.js'],
     moduleFileExtensions: ['js', 'jsx', 'json', 'vue'],
     transform: {
