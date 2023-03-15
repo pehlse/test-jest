@@ -9,31 +9,38 @@ import {
     addMonths,
     startOfDay,
     endOfDay,
+    addHours,
   } from 'date-fns'
-  import { format, utcToZonedTime } from 'date-fns-tz'
+  import { utcToZonedTime, zonedTimeToUtc, formatInTimeZone, getTimezoneOffset } from 'date-fns-tz'
   
+  const timeZone = 'America/Sao_Paulo'
+
   function toParse(date, parseString) {
     if (date instanceof Date) {
       return date
     } else if (parseString === 'iso') {
       return parseISO(date)
     } else {
-      return parse(date, parseString, new Date())
+      const zonedDate = utcToZonedTime(new Date(), timeZone);
+      const parsedDate = parse(date, parseString, zonedDate);
+      return zonedTimeToUtc(parsedDate, timeZone);
     }
   }
   
   function dateAbstract(date = new Date(), parseString) {
     const dateParsed = toParse(date, parseString)
-    console.log('dateParsed', dateParsed)
-    console.log('aquiii', dateParsed)
+
+    const offsSetTimeZoneInMileSeconds = getTimezoneOffset(timeZone, dateParsed)
+    const offSetInHours = (offsSetTimeZoneInMileSeconds * -1) / 3600000
+
     return {
       date: dateParsed,
   
-      format: (stringFormat) =>
-        format(utcToZonedTime(dateParsed, 'America/Sao_Paulo'), stringFormat, {
-          timeZone: 'America/Sao_Paulo',
-        }),
-  
+      format: (stringFormat) =>{
+        return formatInTimeZone(dateParsed,timeZone, stringFormat, {
+          timeZone: timeZone,
+        })
+      },
       isSameOrBefore: (dateToCompare, parseString) => {
         const finalDateParsed = toParse(dateToCompare, parseString)
   
@@ -60,9 +67,13 @@ import {
   
       addMonths: (numberToAdd) => addMonths(dateParsed, numberToAdd),
   
-      startOfDay: () => startOfDay(dateParsed),
+      startOfDay: () => {
+        return addHours(startOfDay(dateParsed), offSetInHours)
+      },
   
-      endOfDay: () => endOfDay(dateParsed),
+      endOfDay: () => {
+        return addHours(endOfDay(dateParsed), offSetInHours)
+      },
     }
   }
   
