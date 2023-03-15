@@ -29,11 +29,12 @@ import {
     return {
       date: dateParsed,
   
-      format: (stringFormat) =>
-        format(utcToZonedTime(dateParsed, 'America/Sao_Paulo'), stringFormat, {
+      format: (stringFormat) =>{
+        console.log(utcToZonedTime(dateParsed, 'America/Sao_Paulo'))
+        return format(utcToZonedTime(dateParsed, 'America/Sao_Paulo'), stringFormat, {
           timeZone: 'America/Sao_Paulo',
-        }),
-  
+        })
+      },
       isSameOrBefore: (dateToCompare, parseString) => {
         const finalDateParsed = toParse(dateToCompare, parseString)
   
