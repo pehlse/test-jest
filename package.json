@@ -1,0 +1,27 @@
+{
+  "name": "test-jest",
+  "version": "1.0.0",
+  "description": "For a test",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "vue-cli-service test:unit",
+    "test:gc": "node --expose-gc ./node_modules/.bin/jest --logHeapUsage  --ci --colors"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vue/cli-service": "^5.0.8",
+    "date-fns": "^2.29.3",
+    "date-fns-tz": "^2.0.0",
+    "jest": "^29.5.0",
+    "vue-jest": "^3.0.7"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.21.3",
+    "@babel/preset-env": "^7.20.2",
+    "babel-jest": "^29.5.0"
+  }
+}
